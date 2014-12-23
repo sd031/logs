@@ -1,6 +1,6 @@
 Package.describe({
   name: 'templates:logs',
-  summary: 'Namespaced logs.',
+  summary: 'Namespaced logs with style.',
   version: '1.0.0',
   git: 'https://github.com/meteortemplates/logs.git'
 });
