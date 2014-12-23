@@ -14,25 +14,26 @@ this.Logger = {
       this._types[name] = {
         enabled: true
       }
-    } else {
+    } 
+    else {
       this.log('error', 'Problem with addType method call');
-      return false;
     }
   },
 
   enableType: function(type) {
     if (!this._types[type]) {
-      return this._types[type] = {
+      this._types[type] = {
         enabled: true
       };
-    } else {
-      return this._types[type].enabled = true;
+    } 
+    else {
+      this._types[type].enabled = true;
     }
   },
 
 
   disableType: function(type) {
-    return this._types[type].enabled = false;
+    this._types[type].enabled = false;
   },
 
 
@@ -40,7 +41,8 @@ this.Logger = {
     if (this._types[type] && this._types[type].enabled) {
       if (!value) {
         console.log(type + " : " + message);
-      } else {
+      } 
+      else {
         console.log(type + " : " + message  + " : " + value);
       }
     }

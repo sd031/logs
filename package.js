@@ -6,8 +6,7 @@ Package.describe({
 });
 
 Npm.depends({
-  "clivas": "0.1.4",
-  "util": "0.10.3",
+  "clivas": "0.1.4"
 });
 
 Package.onUse(function(api) {
