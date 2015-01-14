@@ -9,18 +9,15 @@ meteor add templates:logs
 
 Create a file named `logconfig.js` inside of your lib folder. 
 Inside of this file, you can add a logger namespace and assign it a color by using `Logger.addType('namespace', 'color');`
-You can also disable all logs with that namespace by using `Logger.disableType('namespace');` 
 
 In `logconfig.js`: 
 ```javascript
 if (Meteor.isClient) {
  Logger.addType('namespace', 'color');
- Logger.disableType('namespace');
 }
 
 if (Meteor.isServer) {
   Logger.addType('namespace', 'color');
-  Logger.disableType('namespace');
 }
 ```
 For example: 
@@ -33,11 +30,14 @@ if (Meteor.isServer) {
   Logger.addType('notifications', 'yellow');
 }
 ```
-If you want to disable a log namespace, simply type: 
+
+You can also disable all logs with that namespace by using `Logger.disableType('namespace');` 
+
+If you want to disable the `notifications` namespace above, simply type: 
 ```javascript
-Logger.disableType('namespace');
+Logger.disableType('notifications');
 ```
-This will disable all logs assigned to the `notifications` namespace: 
+For example: 
 ```javascript
 if (Meteor.isServer) {
   Logger.addType('notifications', 'yellow');
