@@ -53,6 +53,7 @@ For example:
 ```javascript
 Logger.log('users', 'User is now an admin');
 ```
+**Screenshots**
 
 ![alt tag](http://i.imgur.com/YtOs9sF.png)
 ![alt tag](http://i.imgur.com/YRRrf9i.png)
