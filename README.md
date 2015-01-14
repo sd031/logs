@@ -33,7 +33,7 @@ Logger.log(/*type*/, /*text*/, /*data*/);
 For example:
 ```javascript
 if (Meteor.isClient) {
- Logger.log('accounts', 'User has loaded the page');
+ Logger.log('accounts', 'User has loaded the page', Meteor.user());
 }
 
 if (Meteor.isServer) {
