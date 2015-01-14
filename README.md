@@ -7,52 +7,55 @@ meteor add templates:logs
 ```
 **Example**
 
-Create a file named `logconfig.js` inside of your lib folder. 
-Inside of this file, you can add a logger namespace and assign it a color by using `Logger.addType('namespace', 'color');`
+First, add a `type` to Logger. Usually we do this in a file named `logconfig.js` inside of our `/lib` folder.
 
-In `logconfig.js`: 
 ```javascript
-if (Meteor.isClient) {
- Logger.addType('namespace', 'color');
-}
-
-if (Meteor.isServer) {
-  Logger.addType('namespace', 'color');
-}
+Logger.addType(/*namespace*/, /*color (server-side only)*/);
 ```
+
 For example: 
 ```javascript
 if (Meteor.isClient) {
- Logger.addType('accounts', 'blue');
+ Logger.addType('accounts');
 }
 
 if (Meteor.isServer) {
-  Logger.addType('notifications', 'yellow');
+  Logger.addType('roles', 'yellow');
 }
 ```
 
-You can also disable all logs with that namespace by using `Logger.disableType('namespace');` 
+Then, log something!
 
-If you want to disable the `notifications` namespace above, simply type: 
 ```javascript
-Logger.disableType('notifications');
-```
-For example: 
-```javascript
-if (Meteor.isServer) {
-  Logger.addType('notifications', 'yellow');
-  Logger.disableType('notifications');
-}
+Logger.log(/*type*/, /*text*/, /*data*/);
 ```
 
-In your application's server or client-specific javascript code:
-```javascript
-Logger.log('namespace', 'notification');
-```
 For example:
 ```javascript
-Logger.log('users', 'User is now an admin');
+if (Meteor.isClient) {
+ Logger.log('accounts', 'User has loaded the page');
+}
+
+if (Meteor.isServer) {
+  Logger.log('roles', 'User is now an admin');
+}
 ```
+
+You can also disable all logs of a given `type` at any time:
+
+```javascript
+Logger.disableType(/*namespace*/);
+```
+
+For example, to disable all logs for the `accounts` type we created above:
+```javascript
+if (Meteor.isClient) {
+  Logger.disableType('accounts');
+}
+```
+
+That's all for now!
+
 **Screenshots**
 
 ![alt tag](http://i.imgur.com/YtOs9sF.png)
