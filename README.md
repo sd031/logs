@@ -10,7 +10,7 @@ meteor add templates:logs
 First, add a `type` to Logger. Usually we do this in a file named `logconfig.js` inside of our `/lib` folder.
 
 ```javascript
-Logger.addType(/*namespace*/, /*color (server-side only)*/);
+Logger.addType(/*namespace*/, /*color (shows on the server-side only)*/);
 ```
 
 For example: 
@@ -22,6 +22,9 @@ if (Meteor.isClient) {
 if (Meteor.isServer) {
   Logger.addType('roles', 'yellow');
 }
+
+// This works, too--the color will only show on the server-side console.
+Logger.addType('comments', 'blue');
 ```
 
 Then, log something!
