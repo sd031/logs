@@ -53,3 +53,9 @@ For example:
 ```javascript
 Logger.log('users', 'User is now an admin');
 ```
+Contributors
+------------
+
+* [Jon James](http://github.com/jonjamz)
+* [Andrew Reedy](http://github.com/andrewreedy)
+* [Jeff James](http://github.com/jwjames)
