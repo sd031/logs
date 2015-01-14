@@ -7,52 +7,55 @@ meteor add templates:logs
 ```
 **Example**
 
-Create a file named `logconfig.js` inside of your lib folder. 
-Inside of this file, you can add a logger namespace and assign it a color by using `Logger.addType('namespace', 'color');`
-You can also disable all logs with that namespace by using `Logger.disableType('namespace');` 
+First, add a `type` to Logger. Usually we do this in a file named `logconfig.js` inside of our `/lib` folder.
 
-In `logconfig.js`: 
 ```javascript
-if (Meteor.isClient) {
- Logger.addType('namespace', 'color');
- Logger.disableType('namespace');
-}
-
-if (Meteor.isServer) {
-  Logger.addType('namespace', 'color');
-  Logger.disableType('namespace');
-}
+Logger.addType(/*namespace*/, /*color (server-side only)*/);
 ```
+
 For example: 
 ```javascript
 if (Meteor.isClient) {
- Logger.addType('accounts', 'blue');
+ Logger.addType('accounts');
 }
 
 if (Meteor.isServer) {
-  Logger.addType('notifications', 'yellow');
-}
-```
-If you want to disable a log namespace, simply type: 
-```javascript
-Logger.disableType('namespace');
-```
-This will disable all logs assigned to the `notifications` namespace: 
-```javascript
-if (Meteor.isServer) {
-  Logger.addType('notifications', 'yellow');
-  Logger.disableType('notifications');
+  Logger.addType('roles', 'yellow');
 }
 ```
 
-In your application's server or client-specific javascript code:
+Then, log something!
+
 ```javascript
-Logger.log('namespace', 'notification');
+Logger.log(/*type*/, /*text*/, /*data*/);
 ```
+
 For example:
 ```javascript
-Logger.log('users', 'User is now an admin');
+if (Meteor.isClient) {
+ Logger.log('accounts', 'User has loaded the page', Meteor.user());
+}
+
+if (Meteor.isServer) {
+  Logger.log('roles', 'User is now an admin', user);
+}
 ```
+
+You can also disable all logs of a given `type` at any time:
+
+```javascript
+Logger.disableType(/*namespace*/);
+```
+
+For example, to disable all logs for the `accounts` type we created above:
+```javascript
+if (Meteor.isClient) {
+  Logger.disableType('accounts');
+}
+```
+
+That's all for now!
+
 **Screenshots**
 
 ![alt tag](http://i.imgur.com/YtOs9sF.png)
