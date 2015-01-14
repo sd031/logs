@@ -37,7 +37,7 @@ if (Meteor.isClient) {
 }
 
 if (Meteor.isServer) {
-  Logger.log('roles', 'User is now an admin');
+  Logger.log('roles', 'User is now an admin', user);
 }
 ```
 
