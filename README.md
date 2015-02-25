@@ -3,7 +3,7 @@
 **Install**
 
 ```
-meteor add templates:logs
+meteor add bigdata:logs
 ```
 **Example**
 
