@@ -1,8 +1,8 @@
 Package.describe({
-  name: 'templates:logs',
+  name: 'bigdata:logs',
   summary: 'Namespaced logs with style.',
   version: '1.0.0',
-  git: 'https://github.com/meteortemplates/logs.git'
+  git: 'https://github.com/meteorbigdata/logs.git'
 });
 
 Npm.depends({
@@ -15,12 +15,12 @@ Package.onUse(function(api) {
     'check',
     'underscore'
   ]);
-  api.addFiles('templates:logs-client.js', 'client');
-  api.addFiles('templates:logs-server.js', 'server');
+  api.addFiles('client.js', 'client');
+  api.addFiles('server.js', 'server');
 });
 
 Package.onTest(function(api) {
   api.use('tinytest');
-  api.use('templates:logs');
-  api.addFiles('templates:logs-tests.js');
+  api.use('bigdata:logs');
+  api.addFiles('test.js');
 });
