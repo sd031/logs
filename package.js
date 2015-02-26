@@ -1,12 +1,8 @@
 Package.describe({
   name: 'bigdata:logs',
   summary: 'Namespaced logs with style.',
-  version: '1.0.0',
+  version: '1.0.2',
   git: 'https://github.com/meteorbigdata/logs.git'
-});
-
-Npm.depends({
-  "clivas": "0.1.4"
 });
 
 Package.onUse(function(api) {
