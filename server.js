@@ -1,6 +1,7 @@
 var util = Npm.require('util');
 
-var clivas = {
+this.Logger = {
+
   _offset: 0,
   _offsetPin: 0,
   _lastClear: 0,
@@ -9,7 +10,7 @@ var clivas = {
   _linesCache: [],
   _whitespace: Array(1000).join(' '),
   _canvasStream: process.stdout,
-  _syntax: /<([^:>]+)(?::([^\<\>]*))?\>/g,
+  _syntax: /\{([^:\}]+)(?::([^\{\}]*))?\}/g,
 
   _alias: {},
 
@@ -29,25 +30,26 @@ var clivas = {
     yellow: ['\x1B[33m', '\x1B[39m']
   },
 
-  _alias: function(name, value) {
-    this._linesCache = [];
+  _types: {
+    error: {
+      color: "red",
+      enabled: true
+    },
+    debug: {
+      color: "cyan",
+      enabled: false
+    }
+  },
+
+  alias: function(name, value) {
+    this._linesCache = [], self = this;
     if (typeof name === 'object') {
       Object.keys(name).forEach(function(key) {
-        this.this._alias(key, name[key]);
+        self.alias(key, name[key]);
       });
       return;
     }
     this._alias[name] = typeof value === 'string' ? value.split('+') : [value];
-  },
-
-  replaceSyntax: function (value, head) {
-    if (this._alias[head]) {
-      return this._alias[head].reduce(this.replaceSyntax, value);
-    }
-    var num = parseInt(head,10);
-    if (num) return value+this._whitespace.slice(0, Math.max(num-value.length,0));
-    if (!this._styles[head]) return value;
-    return this._styles[head][0]+value+this._styles[head][1];
   },
 
   flush: function(bool) {
@@ -67,12 +69,12 @@ var clivas = {
   },
 
   clear: function(wait) {
-    if (Date.now() - this._lastClear < wait) {
+    if (Date.now() - lastClear < wait) {
       return false;
     }
     this._lastClear = Date.now();
     if (this._canvasStream.moveCursor) {
-      this._canvasStream.moveCursor(0, -this._offset);  
+      this._canvasStream.moveCursor(0, -offset);  
     }
     if (this._shouldFlush && this._canvasStream.clearScreenDown) {
       this._canvasStream.clearScreenDown(); 
@@ -82,12 +84,28 @@ var clivas = {
   },
 
   write: function(line) {
+    var self = this;
+
+    var syntaxReplace = function(value, head) {
+      if (self._alias[head]) {
+        return self._alias[head].reduce(syntaxReplace, value);
+      }
+      var num = parseInt(head,10);
+      if (num) return value+self._whitespace.slice(0, Math.max(num-value.length,0));
+      if (!self._styles[head]) return value;
+      return self._styles[head][0]+value+self._styles[head][1];
+    }
+
+    var syntaxReplaceAll = function(_, heads, value) {
+      return heads.split('+').reduce(syntaxReplace, value || '');
+    }
+
     if (!Buffer.isBuffer(line)) {
       line = util.format.apply(util, arguments);
-      line = line.replace(this._syntax, this._replaceAllSyntax).replace(this._syntax, this._replaceAllSyntax);
+      line = line.replace(this._syntax, syntaxReplace).replace(this._syntax, syntaxReplaceAll);
     }
+
     this._canvasStream.write(line);
-    return line;
   },
 
   line: function(line) {
@@ -95,7 +113,7 @@ var clivas = {
     line += '\n';
 
     if (arguments.length === 1 && this._linesCache[this._offset] && this._linesCache[this._offset][0] === line) {
-      this._canvasStream.write(this._linesCache[this._offset][1]);
+      this._canvasStream.write(linesCache[this._offset][1]);
       return this._linesCache[this._offset][1];
     }
     if (arguments.length === 1) {
@@ -103,42 +121,13 @@ var clivas = {
       return this._linesCache[this._offset][1];
     }
 
-    return this.write.apply(this, arguments);
+    return this.write(line);
   },
 
   pin: function(pos) {
     if (pos === true || pos === undefined) return this.pin(this._offset);
     if (pos === false) return this.pin(0);
     this._offsetPin = pos;
-  },
-
-  times: function(str, num) {
-    if (typeof num === 'string') {
-      var tmp = num;
-      num = str;
-      str = tmp;
-    }
-    return Array(num+1).join(str);
-  }
-}
-
-var replaceAllSyntax = function (test, heads, value) {
-  var self = this;
-
-  return heads.split('+').reduce(clivas.replaceSyntax, value || '');
-}
-
-this.Logger = {
-
-  _types: {
-    error: {
-      color: "red",
-      enabled: true
-    },
-    debug: {
-      color: "cyan",
-      enabled: false
-    }
   },
 
   addType: function(name, color) {
@@ -174,29 +163,27 @@ this.Logger = {
   log: function(type, message, value) {
     if (this._types[type] && this._types[type].enabled) {
       if (!value) {
-        if (_.isObject(message) && !(value instanceof Date)) {
-          clivas.line("<" + this._types[type].color + ": [" + type + "]>");
-          clivas.line("<inverse: " + message + " >");
+        if (_.isObject(message) && !(message instanceof Date)) {
+          this.line("{" + this._types[type].color + ": [" + type + "]}");
+          console.log(util.inspect(message, false, null));
         } 
         else {
-          clivas.line("<" + this._types[type].color + ": [" + type + "]><white: " + message + ">");
+          this.line("{" + this._types[type].color + ": [" + type + "]}{white: " + message + "}");
         }
       } 
       else {
         if (_.isObject(value) && !(value instanceof Date)) {
-          clivas.line("<" + this._types[type].color + ": [" + type + "]><white: " + message + ">");
-          var parse = util.inspect(value);
-          clivas.line("<green: " + "object}" + " >");
+          this.line("{" + this._types[type].color + ": [" + type + "]}{white: " + message + "}");
+          console.log(util.inspect(value, false, null));
         } 
         else {
-          clivas.line("<" + this._types[type].color + ": [" + type + "]><white: " + message + "> :<magenta: " + value + ">");
+          this.line("{" + this._types[type].color + ": [" + type + "]}{white: " + message + "} :{magenta: " + value + "}");
         }
       }
     }
   },
 
   rawLog: function(value) {
-    clivas.line(value);
+    this.line(value);
   }
-
 };

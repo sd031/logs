@@ -1,7 +1,7 @@
 Package.describe({
   name: 'bigdata:logs',
   summary: 'Namespaced logs with style.',
-  version: '1.0.2',
+  version: '1.0.3',
   git: 'https://github.com/meteorbigdata/logs.git'
 });
 
