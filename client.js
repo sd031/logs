@@ -40,10 +40,10 @@ this.Logger = {
   log: function(type, message, value) {
     if (this._types[type] && this._types[type].enabled) {
       if (!value) {
-        console.log(type + " : " + message);
+        console.log("[" + type + "] " + message);
       } 
       else {
-        console.log(type + " : " + message  + " : " + value);
+        console.log("[" + type + "] " + message  + " : " + value);
       }
     }
   }
