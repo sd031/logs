@@ -30,7 +30,7 @@ Logger.addType('comments', 'blue');
 Then, log something!
 
 ```javascript
-Logger.log(/*type*/, /*text*/, /*data*/);
+Logger.log(/*namespace*/, /*text*/, /*data*/);
 ```
 
 For example:
