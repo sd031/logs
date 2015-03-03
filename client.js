@@ -1,18 +1,21 @@
-this.Logger = {
+Logger = {
 
   _types: {
     error: {
-      enabled: true
+      enabled: true,
+      color: "red"
     },
     debug: {
-      enabled: false
+      enabled: false,
+      color: "grey"
     }
   },
 
-  addType: function(name) {
+  addType: function(name, color) {
     if (name) {
       this._types[name] = {
-        enabled: true
+        enabled: true,
+        color: color
       }
     } 
     else {
@@ -40,12 +43,11 @@ this.Logger = {
   log: function(type, message, value) {
     if (this._types[type] && this._types[type].enabled) {
       if (!value) {
-        console.log("[" + type + "] " + message);
+        log('[c="background: #f0f0f0; line-height: 20px; border-radius: 4px; padding: 2px 5px; color: ' + this._types[type].color + '"]' + type + '[c] ' + message );
       } 
       else {
-        console.log("[" + type + "] " + message  + " : " + value);
+        log('[c="background: #f0f0f0; line-height: 20px; border-radius: 4px; padding: 2px 5px; color: ' + this._types[type].color + '"]' + type + '[c] ' + message  + ' [c="color: grey"]:[c] [c="color: purple"]' + value + '[c]');
       }
     }
   }
-  
 };

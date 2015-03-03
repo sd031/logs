@@ -10,13 +10,13 @@ meteor add bigdata:logs
 First, add a `type` to Logger. Usually we do this in a file named `logconfig.js` inside of our `/lib` folder.
 
 ```javascript
-Logger.addType(/*namespace*/, /*color (shows on the server-side only)*/);
+Logger.addType(/*namespace*/, /*color*/);
 ```
 
 For example: 
 ```javascript
 if (Meteor.isClient) {
- Logger.addType('accounts');
+ Logger.addType('accounts', 'blue');
 }
 
 if (Meteor.isServer) {
@@ -61,6 +61,10 @@ That's all for now!
 
 **Screenshots**
 
+### Client
+![alt tag](https://dl-web.dropbox.com/get/Screenshots/Screenshot%202015-03-03%2009.31.03.png?_subject_uid=9883757&w=AADUPNOSTGMahiQhtJsVpyyOGi-vW6PrZYgrDqJ9yDXlEg)
+
+### Server
 ![alt tag](http://i.imgur.com/YtOs9sF.png)
 ![alt tag](http://i.imgur.com/YRRrf9i.png)
 ![alt tag](http://i.imgur.com/btzA3Pi.png)

@@ -1,6 +1,6 @@
 var util = Npm.require('util');
 
-this.Logger = {
+Logger = {
 
   _offset: 0,
   _offsetPin: 0,
