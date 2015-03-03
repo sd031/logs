@@ -62,7 +62,7 @@ That's all for now!
 **Screenshots**
 
 ### Client
-![alt tag](https://dl-web.dropbox.com/get/Screenshots/Screenshot%202015-03-03%2009.31.03.png?_subject_uid=9883757&w=AADUPNOSTGMahiQhtJsVpyyOGi-vW6PrZYgrDqJ9yDXlEg)
+![alt tag](http://i.imgur.com/Fu8y5KE.png)
 
 ### Server
 ![alt tag](http://i.imgur.com/YtOs9sF.png)
